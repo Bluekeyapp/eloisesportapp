@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#111111">
+<title>GLUTELAB — Programme 12 semaines</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiR0xVVEVMQUIiLCJzaG9ydF9uYW1lIjoiR0xVVEVMQUIiLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzExMTExMSIsInRoZW1lX2NvbG9yIjoiIzExMTExMSJ9">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:'DM Sans',system-ui,sans-serif;background:#111;color:#f0f0f0;overscroll-behavior:none;
+  -webkit-font-smoothing:antialiased;min-height:100vh;min-height:100dvh}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;-webkit-appearance:none}
+.app{max-width:430px;margin:0 auto;min-height:100vh;min-height:100dvh;position:relative;background:#111;overflow-x:hidden}
+
+/* Views */
+.view{display:none;animation:fadeIn .2s ease}
+.view.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* Tab Bar */
+.tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;
+  display:flex;background:rgba(17,17,17,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-top:1px solid #222;padding:6px 0 max(8px,env(safe-area-inset-bottom));z-index:90}
+.tab-bar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;
+  font-size:10px;font-weight:600;color:#555;transition:color .15s}
+.tab-bar button.on{color:#E8453F}
+.tab-bar .ico{font-size:20px;line-height:1}
+
+/* Header */
+.head{padding:max(52px,env(safe-area-inset-top,52px)) 20px 16px}
+.head h1{font-size:28px;font-weight:800;letter-spacing:-.5px}
+.head h1 span{color:#E8453F}
+.head p{font-size:13px;color:#666;margin-top:2px}
+
+/* Phase Pills */
+.phase-pills{display:flex;gap:6px;padding:0 20px;margin-bottom:16px}
+.phase-pills button{padding:8px 16px;border-radius:99px;font-size:12px;font-weight:700;background:#1a1a1a;color:#666;transition:all .15s}
+.phase-pills button.on{color:#fff}
+
+/* Session Grid */
+.sess-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 20px;margin-bottom:16px}
+.sess-card{background:#1a1a1a;border-radius:14px;padding:14px;cursor:pointer;transition:all .12s;border:1.5px solid transparent}
+.sess-card:active{transform:scale(.97)}
+.sess-card .day{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.sess-card .stitle{font-size:14px;font-weight:700;line-height:1.2}
+.sess-card .bar{margin-top:8px;height:3px;border-radius:2px;background:#222;overflow:hidden}
+.sess-card .bar-fill{height:100%;border-radius:2px;transition:width .3s}
+.sess-card .cnt{font-size:10px;color:#555;margin-top:4px}
+
+/* Workout */
+.workout{padding:0 20px 120px}
+.wk-head{padding-top:40px;margin-bottom:16px}
+.wk-head.timer-push{padding-top:70px}
+.back-btn{font-size:13px;color:#666;padding:4px 0;margin-bottom:8px;display:inline-flex;align-items:center;gap:4px}
+.wk-head h2{font-size:22px;font-weight:800}
+.wk-head .sub{font-size:12px;color:#888;margin-top:2px}
+
+.warm-box{background:#1a1a1a;border-radius:12px;padding:12px 14px;margin-bottom:14px;
+  font-size:13px;color:#aaa;line-height:1.5;display:flex;gap:8px;align-items:flex-start}
+.warm-box .wi{font-size:16px;flex-shrink:0}
+
+/* Exercise Items */
+.ex-item{background:#1a1a1a;border-radius:14px;margin-bottom:8px;overflow:hidden;transition:opacity .15s}
+.ex-item.checked{opacity:.45}
+.ex-row{display:flex;align-items:center;padding:12px 14px;gap:10px}
+.ex-check{width:28px;height:28px;border-radius:8px;border:2px solid #333;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .12s;color:transparent}
+.ex-check.on{border-color:#E8453F;background:#E8453F;color:#fff}
+.ex-info{flex:1;min-width:0;cursor:pointer}
+.ex-name{font-size:14px;font-weight:600;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ex-meta{display:flex;gap:8px;flex-wrap:wrap}
+.ex-meta span{font-size:11px;color:#888}
+.ex-meta .accent{color:#E8453F;font-weight:700}
+.ex-expand{padding:0 14px 12px;border-top:1px solid #222;display:none}
+.ex-expand.open{display:block}
+.ex-tip{font-size:13px;color:#999;line-height:1.5;padding-top:10px}
+.rest-btn{margin-top:8px;padding:8px 16px;border-radius:10px;font-size:12px;font-weight:700;
+  display:inline-flex;align-items:center;gap:6px;transition:all .12s}
+.rest-btn:active{transform:scale(.95)}
+
+/* Timer Bar */
+.timer-bar{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;
+  background:rgba(232,69,63,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  padding:10px 20px;z-index:100;display:none;align-items:center;justify-content:space-between}
+.timer-bar.active{display:flex}
+.timer-bar .tt{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
+.timer-bar .tl{font-size:12px;font-weight:600;opacity:.8}
+.timer-bar .ts{padding:6px 14px;border-radius:8px;background:rgba(0,0,0,.3);font-size:12px;font-weight:700}
+
+/* Finish Button */
+.finish-btn{position:fixed;bottom:64px;left:50%;transform:translateX(-50%);width:calc(100% - 40px);
+  max-width:390px;padding:16px;border-radius:14px;font-size:15px;font-weight:800;text-align:center;z-index:80}
+.finish-btn:active{transform:translateX(-50%) scale(.97)}
+
+/* Done Screen */
+.done-screen{text-align:center;padding:80px 20px}
+.done-screen .big{font-size:60px;margin-bottom:16px}
+.done-screen h2{font-size:24px;font-weight:800;margin-bottom:6px}
+.done-screen p{font-size:14px;color:#888}
+.done-screen button{margin-top:24px;padding:14px 32px;border-radius:14px;font-size:14px;font-weight:700;background:#E8453F;color:#fff}
+
+/* Info Cards */
+.info-section{padding:0 20px 100px}
+.info-card{background:#1a1a1a;border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start}
+.info-card .ii{font-size:22px;flex-shrink:0}
+.info-card h4{font-size:14px;font-weight:700;margin-bottom:2px}
+.info-card p{font-size:12px;color:#888;line-height:1.4}
+
+/* Progressions */
+.prog-section{padding:0 20px 100px}
+.prog-phase{margin-bottom:24px}
+.prog-phase-title{font-size:14px;font-weight:700;margin-bottom:10px}
+.prog-item{padding:10px 0;border-bottom:1px solid #1a1a1a;font-size:13px;color:#ccc;line-height:1.4;display:flex;gap:8px;align-items:flex-start}
+.prog-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:6px}
+
+/* History */
+.hist-item{padding:10px 16px;background:#1a1a1a;border-radius:12px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.hist-item .hd{font-size:12px;color:#888}
+.hist-item .hs{font-size:13px;font-weight:600}
+
+.section-label{font-size:13px;font-weight:700;margin-bottom:10px}
+.wk-label{padding:0 20px;margin-bottom:14px;font-size:12px;color:#666;font-weight:600}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- Timer Bar -->
+  <div class="timer-bar" id="timerBar">
+    <div>
+      <div class="tt" id="timerDisplay">0:00</div>
+      <div class="tl">Temps de repos</div>
+    </div>
+    <button class="ts" onclick="stopTimer()">Annuler</button>
+  </div>
+
+  <!-- HOME -->
+  <div class="view active" id="viewHome">
+    <div class="head">
+      <h1>GLUTE<span>LAB</span></h1>
+      <p>Fessiers • Cuisses • Ventre plat</p>
+    </div>
+    <div class="phase-pills" id="phasePills"></div>
+    <div class="wk-label" id="phaseWeeks"></div>
+    <div class="sess-grid" id="sessGrid"></div>
+  </div>
+
+  <!-- WORKOUT -->
+  <div class="view" id="viewWorkout">
+    <div class="workout">
+      <div class="wk-head" id="wkHead">
+        <button class="back-btn" onclick="showView('home')">← Retour</button>
+        <h2 id="wkTitle"></h2>
+        <div class="sub" id="wkSub"></div>
+      </div>
+      <div class="warm-box" id="wkWarm"></div>
+      <div id="exList"></div>
+      <button class="finish-btn" id="finishBtn" onclick="finishSession()">Terminer la séance ✓</button>
+    </div>
+  </div>
+
+  <!-- DONE -->
+  <div class="view" id="viewDone">
+    <div class="done-screen">
+      <div class="big">🎉</div>
+      <h2>Bravo !</h2>
+      <p>Séance terminée et enregistrée.</p>
+      <button onclick="resetAndHome()">Retour à l'accueil</button>
+    </div>
+  </div>
+
+  <!-- PROGRESSIONS -->
+  <div class="view" id="viewProg">
+    <div class="head"><h1>Progressions</h1><p>Évolutions à appliquer toutes les 2 semaines</p></div>
+    <div class="prog-section" id="progList"></div>
+  </div>
+
+  <!-- INFO -->
+  <div class="view" id="viewInfo">
+    <div class="head"><h1>Conseils</h1><p>Nutrition, récupération & matériel</p></div>
+    <div class="info-section" id="infoContent"></div>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tab-bar" id="tabBar">
+    <button onclick="showView('home')" data-tab="home"><span class="ico">🏠</span>Séances</button>
+    <button onclick="showView('prog')" data-tab="prog"><span class="ico">📈</span>Progrès</button>
+    <button onclick="showView('info')" data-tab="info"><span class="ico">💡</span>Conseils</button>
+  </div>
+</div>
+
+<script>
+/* ─── DATA ─── */
+const P=[
+{id:"p1",name:"Activation",wk:"Sem. 1-4",color:"#E8453F",sessions:[
+{id:"a",day:"Lun",title:"Fessiers priorité",warm:"Squats poids du corps, ponts fessiers, ouvertures de hanche élastique 10kg",ex:[
+{n:"Poussée de hanches au sol",s:4,r:"15",w:"Haltère 10kg",rest:60,tip:"Serrer les fessiers 2s en haut. Genoux à 90°."},
+{n:"Squat sumo",s:3,r:"12",w:"Kettlebell 12kg",rest:60,tip:"Cuisses parallèles au sol. Pointes de pieds vers l'extérieur."},
+{n:"Fentes bulgares",s:3,r:"10/jambe",w:"Haltères 2×4kg",rest:60,tip:"Pied arrière sur une chaise. Genou avant derrière les orteils."},
+{n:"Coups de pied arrière",s:3,r:"15/jambe",w:"Élastique 10kg",rest:45,tip:"Élastique aux genoux. Contracter 1s en haut."},
+{n:"Abduction debout",s:3,r:"20/jambe",w:"Élastique 10kg",rest:45,tip:"Dos droit, mouvement lent et contrôlé."},
+{n:"Gainage planche",s:3,r:"30s",w:"—",rest:30,tip:"Corps aligné, serrer abdos et fessiers."}]},
+{id:"b",day:"Mar",title:"Cuisses & Fessiers",warm:"Montées de genoux, squats latéraux, activation fessiers élastique",ex:[
+{n:"Squat goblet",s:4,r:"12",w:"Kettlebell 12kg",rest:60,tip:"Coudes entre les genoux en bas. Dos droit."},
+{n:"Soulevé jambes tendues",s:3,r:"12",w:"Haltères 2×4kg",rest:60,tip:"Sentir l'étirement à l'arrière des cuisses."},
+{n:"Montées sur chaise",s:3,r:"10/jambe",w:"Haltères 2×3kg",rest:60,tip:"Pousser avec le talon uniquement."},
+{n:"Pont fessier une jambe",s:3,r:"12/jambe",w:"—",rest:45,tip:"Jambe tendue vers le plafond. Serrer 2s en haut."},
+{n:"Marche du monstre",s:3,r:"15 pas/dir.",w:"Élastique 10kg",rest:45,tip:"Demi-squat, petits pas, tension constante."},
+{n:"Insecte mort",s:3,r:"10/côté",w:"—",rest:30,tip:"Bas du dos collé au sol."}]},
+{id:"c",day:"Jeu",title:"Fessiers intensif",warm:"Cercles de hanches, bouche d'incendie, squats pulsés",ex:[
+{n:"Poussée hanches pieds surélevés",s:4,r:"12",w:"Haltère 10kg",rest:75,tip:"Pieds sur une chaise. Plus d'amplitude = plus de résultat."},
+{n:"Fente croisée arrière",s:3,r:"12/jambe",w:"Kettlebell 12kg",rest:60,tip:"Croisement derrière. Cible le moyen fessier."},
+{n:"Soulevé une jambe",s:3,r:"10/jambe",w:"Haltère 4kg",rest:60,tip:"Équilibre + arrière de cuisse. Dos plat."},
+{n:"Bouche d'incendie",s:3,r:"15/jambe",w:"Élastique 10kg",rest:45,tip:"À 4 pattes. Genou à 90°, ouvrir vers l'extérieur."},
+{n:"Squat pulsé",s:3,r:"20",w:"Élastique 20kg",rest:45,tip:"Rester en bas, petits mouvements. Ça brûle !"},
+{n:"Planche latérale",s:3,r:"25s/côté",w:"—",rest:30,tip:"Hanche haute, corps aligné."}]},
+{id:"d",day:"Sam",title:"Corps complet + Cardio",warm:"Échauffement dynamique complet",ex:[
+{n:"Balancier kettlebell",s:4,r:"15",w:"Kettlebell 12kg",rest:60,tip:"Explosion des hanches ! Bras détendus."},
+{n:"Squat + développé épaules",s:3,r:"10",w:"Haltères 2×3kg",rest:60,tip:"Squat puis monter les haltères en remontant."},
+{n:"Fentes marchées",s:3,r:"12/jambe",w:"—",rest:60,tip:"Grands pas, torse droit."},
+{n:"Grimpeur de montagne",s:3,r:"30s",w:"—",rest:30,tip:"Rapides et contrôlés. Abdos gainés."},
+{n:"Crunch inversé",s:3,r:"15",w:"—",rest:30,tip:"Genoux à la poitrine, décoller les fesses du sol."},
+{n:"Crunch vélo",s:3,r:"20",w:"—",rest:30,tip:"Lent et contrôlé. Coude vers genou opposé."}]}],
+prog:["Poussée de hanches → pause 3s en haut","Squat sumo → ajouter élastique 10kg aux cuisses","Fentes bulgares → passer à 1×10kg","Coups de pied → élastique 20kg","Soulevé jambes tendues → kettlebell 12kg","Gainage → 40s / planche latérale → 35s"]},
+
+{id:"p2",name:"Construction",wk:"Sem. 5-8",color:"#D4782F",sessions:[
+{id:"a2",day:"Lun",title:"Fessiers lourd",warm:"Activation fessiers élastique 20kg, cercles de hanches, ponts",ex:[
+{n:"Poussée hanches sur canapé",s:4,r:"12",w:"KB 12kg + élastique 20kg",rest:90,tip:"Omoplates sur le bord du canapé. Serrer 3s."},
+{n:"Squat sumo profond",s:4,r:"12",w:"KB 12kg + élastique 20kg",rest:75,tip:"Descendre au max. Tempo 3-1-1."},
+{n:"Fentes bulgares",s:3,r:"10/jambe",w:"Haltère 10kg",rest:75,tip:"Buste penché en avant = plus de fessier."},
+{n:"Poussée hanches une jambe",s:3,r:"12/jambe",w:"—",rest:60,tip:"Dos au sol, une jambe tendue. Contrôle total."},
+{n:"Abduction assise",s:3,r:"20",w:"Élastique 20kg",rest:45,tip:"Sur une chaise. Ouvrir les genoux."},
+{n:"Planche + toucher épaule",s:3,r:"10/côté",w:"—",rest:45,tip:"Toucher l'épaule opposée. Anti-rotation."}]},
+{id:"b2",day:"Mer",title:"Cuisses & Galbe",warm:"Squats dynamiques, élévations latérales de jambe, élastique",ex:[
+{n:"Squat goblet tempo",s:4,r:"10",w:"KB 12kg",rest:75,tip:"4s descente, 1s pause, 2s remontée."},
+{n:"Soulevé jambes tendues",s:4,r:"12",w:"KB 12kg",rest:75,tip:"Kettlebell proche du corps. Sentir l'arrière des cuisses."},
+{n:"Squat latéral",s:3,r:"10/côté",w:"Haltère 10kg",rest:60,tip:"Une jambe tendue, l'autre fléchie."},
+{n:"Pont fessier avec marche",s:3,r:"10/jambe",w:"Haltère 10kg",rest:60,tip:"En haut du pont, alterner les pas."},
+{n:"Ouverture coquillage",s:3,r:"15/côté",w:"Élastique 20kg",rest:45,tip:"Sur le côté, pieds joints. Ouvrir le genou."},
+{n:"Crunch inversé + relevé",s:3,r:"12",w:"—",rest:45,tip:"Genoux → poitrine, puis jambes vers le plafond."}]},
+{id:"c2",day:"Ven",title:"Fessiers puissance",warm:"Balanciers légers, activation fessiers, mobilité hanches",ex:[
+{n:"Balancier kettlebell",s:5,r:"15",w:"KB 12kg",rest:60,tip:"Explosif ! Serrer au sommet."},
+{n:"Soulevé de terre sumo",s:4,r:"12",w:"KB 12kg",rest:75,tip:"Pieds très écartés. Dos plat."},
+{n:"Poussée hanches pulsée",s:3,r:"15+10 pulsations",w:"Haltère 10kg",rest:75,tip:"15 reps puis 10 pulsations en haut."},
+{n:"Fente arrière",s:3,r:"12/jambe",w:"Haltères 2×4kg",rest:60,tip:"Pas en arrière, genou frôle le sol."},
+{n:"Extension hanche élastique",s:3,r:"15/jambe",w:"Élastique 20kg",rest:45,tip:"Debout, élastique à la cheville."},
+{n:"Gainage corps creux",s:3,r:"30s",w:"—",rest:30,tip:"Bas du dos au sol. Bras et jambes tendus."}]},
+{id:"d2",day:"Dim",title:"Cardio sculpture",warm:"Mobilité complète 5 min",ex:[
+{n:"Circuit : Squat sauté",s:4,r:"10",w:"—",rest:0,tip:"Enchaîner les 4 exos = 1 tour."},
+{n:"Circuit : Fente sautée",s:4,r:"8/jambe",w:"—",rest:0,tip:"Alterner les jambes en sautant."},
+{n:"Circuit : Balancier KB",s:4,r:"15",w:"KB 12kg",rest:0,tip:"Explosivité maximale."},
+{n:"Circuit : Planche + grimpeur",s:4,r:"30s",w:"—",rest:90,tip:"90s repos après chaque tour."},
+{n:"Final : Pont fessier",s:2,r:"30",w:"Élastique 20kg",rest:60,tip:"Reps élevées pour congestionner."},
+{n:"Tabata gainage",s:1,r:"4 min",w:"—",rest:0,tip:"20s planche / 10s repos × 8 tours."}]}],
+prog:["Poussée hanches → haltères 2×4kg + KB 12kg (ou acheter 8kg)","Squat sumo → élastique 30kg + kettlebell","Fentes bulgares → haltère 10kg + élastique 20kg","Soulevé jambes tendues → 2× haltères les plus lourds","Tous les élastiques → passer au 30kg","Balancier KB → 6 séries","Gainage → 45s partout","Réduire tous les repos de 5-10s"]},
+
+{id:"p3",name:"Sculpture",wk:"Sem. 9-12",color:"#9B2335",sessions:[
+{id:"a3",day:"Lun",title:"Fessiers max",warm:"Activation complète fessiers, mobilité hanches et chevilles",ex:[
+{n:"Poussée hanches sur canapé",s:5,r:"10",w:"KB+halt. 10kg+élast. 30kg",rest:90,tip:"Charges cumulées ! Serrer 3s. C'est ici que les fesses se construisent."},
+{n:"Squat sumo 1¼",s:4,r:"10",w:"KB 12kg + élastique 30kg",rest:90,tip:"Descendre, remonter ¼, redescendre, remonter = 1 rep."},
+{n:"Fentes bulgares tempo",s:4,r:"8/jambe",w:"Haltère 10kg + 4kg",rest:75,tip:"Tempo 3-2-1. La lenteur est ton amie."},
+{n:"Poussée hanches une jambe",s:3,r:"12/jambe",w:"Haltère 4kg",rest:60,tip:"Une jambe à la fois pour corriger les déséquilibres."},
+{n:"Marche élastique toutes dir.",s:3,r:"10 pas/dir.",w:"Élastique 30kg",rest:45,tip:"Demi-squat. Ne jamais relâcher la tension."},
+{n:"Glissement serviette abdos",s:3,r:"10",w:"Serviette",rest:45,tip:"Mains sur serviette, glisser puis revenir. Abdos profonds."}]},
+{id:"b3",day:"Mer",title:"Cuisses sculpture",warm:"Squats progressifs, activation arrière de cuisse, mobilité",ex:[
+{n:"Squat goblet avec pause",s:4,r:"10",w:"KB 12kg + élastique 30kg",rest:90,tip:"Pause 3s en bas. Cuisses qui tremblent = bon signe."},
+{n:"Soulevé une jambe",s:4,r:"10/jambe",w:"KB 12kg",rest:75,tip:"Étirement profond arrière de cuisse."},
+{n:"Squat étroit (quadriceps)",s:3,r:"12",w:"Haltère 10kg",rest:60,tip:"Pieds serrés, talons surélevés sur un livre."},
+{n:"Pont fessier dégressif",s:3,r:"10+10+10",w:"KB→halt. 10kg→PDC",rest:75,tip:"3 paliers sans repos entre chaque."},
+{n:"Marche monstre + squat",s:3,r:"5 pas+1 squat ×4",w:"Élastique 30kg",rest:60,tip:"5 pas latéraux, 1 squat. Répéter 4 fois."},
+{n:"Insecte mort lesté",s:3,r:"10/côté",w:"Haltère 3kg",rest:45,tip:"Haltère bras tendu. Stabilité du tronc."}]},
+{id:"c3",day:"Ven",title:"Fessiers métabolique",warm:"Activation complète, balanciers kettlebell légers",ex:[
+{n:"Balancier KB lourd",s:5,r:"20",w:"KB 12kg (ou 16kg)",rest:60,tip:"100 balanciers au total. L'exercice roi pour les fessiers."},
+{n:"Enchaîné : Poussée hanches",s:4,r:"12",w:"Halt. 10kg+élast. 20kg",rest:0,tip:"Enchaîner direct avec l'exo suivant."},
+{n:"Enchaîné : Squat sumo pulsé",s:4,r:"15",w:"KB 12kg",rest:75,tip:"Rester en bas, petits mouvements. Repos après les 2."},
+{n:"Enchaîné : Fente arrière",s:3,r:"10/jambe",w:"Haltères 2×4kg",rest:0,tip:"Enchaîner direct avec l'exo suivant."},
+{n:"Enchaîné : Extension hanche",s:3,r:"15/jambe",w:"Élastique 30kg",rest:60,tip:"Repos après les 2 exos."},
+{n:"Final : Pont fessier max",s:2,r:"Max 45s",w:"Élastique 30kg",rest:60,tip:"Tout donner. Dernière série = tout lâcher."}]},
+{id:"d3",day:"Dim",title:"Cardio intense + Abdos",warm:"Mobilité dynamique complète",ex:[
+{n:"EMOM 16 min",s:1,r:"Voir détail",w:"Varié",rest:0,tip:"Min 1: 10 balanciers | Min 2: 12 squats sautés | Min 3: 10 fentes sautées | Min 4: 10 burpees. ×4."},
+{n:"Crunch inversé",s:3,r:"15",w:"—",rest:0,tip:"Enchaîner les 4 exos abdos sans repos."},
+{n:"Rotation russe",s:3,r:"20",w:"Haltère 3kg",rest:0,tip:"Pieds décollés. Rotation contrôlée."},
+{n:"Planche commando",s:3,r:"10",w:"—",rest:0,tip:"Bras tendus → avant-bras → bras tendus."},
+{n:"Battements de jambes",s:3,r:"30s",w:"—",rest:60,tip:"Bas du dos au sol. Repos après le circuit."}]}],
+prog:["Poussée hanches → max de charge (20kg+ sur le bassin)","Tous les squats → élastique 30kg systématique","Fentes bulgares → haltère 10kg + 4kg (14kg total)","Balancier → kettlebell 16kg si acheté","Ajouter 1-2 reps partout","Réduire TOUS les repos de 10-15s","Séance C → 3 exos enchaînés au lieu de 2","EMOM → passer à 18 ou 20 min"]}
+];
+
+const NUTR=[
+{i:"🍗",t:"Protéines",d:"100-125g/jour — poulet, œufs, poisson, fromage blanc, whey"},
+{i:"💧",t:"Eau",d:"2L minimum — 500ml avant, siroter pendant, 500ml après"},
+{i:"🍠",t:"Glucides",d:"Patate douce, riz, avoine, fruits autour des séances"},
+{i:"😴",t:"Sommeil",d:"7-9h par nuit — les muscles poussent au repos"},
+{i:"🧘",t:"Récup",d:"1 jour d'étirements/yoga + rouleau de massage"}
+];
+const SHOP=[
+{wk:"Semaine 5",item:"Haltères 6kg ×2 et 8kg ×2"},
+{wk:"Semaine 9",item:"Haltères 12kg ×2 ou KB 16kg"},
+{wk:"Optionnel",item:"Longues bandes de traction"}
+];
+
+/* ─── STATE ─── */
+let phaseIdx=0, sessIdx=0, currentView="home", expandedEx=null;
+let done={}, history=[];
+let timerSec=0, timerInterval=null;
+
+/* ─── STORAGE ─── */
+function loadState(){
+  try{done=JSON.parse(localStorage.getItem("gl-done"))||{}}catch{done={}}
+  try{history=JSON.parse(localStorage.getItem("gl-history"))||[]}catch{history=[]}
+}
+function saveDone(){try{localStorage.setItem("gl-done",JSON.stringify(done))}catch{}}
+function saveHistory(){try{localStorage.setItem("gl-history",JSON.stringify(history))}catch{}}
+
+/* ─── TIMER ─── */
+function startTimer(sec){
+  stopTimer();
+  timerSec=sec;
+  updateTimerDisplay();
+  document.getElementById("timerBar").classList.add("active");
+  const wkHead=document.getElementById("wkHead");
+  if(wkHead)wkHead.classList.add("timer-push");
+  timerInterval=setInterval(()=>{
+    timerSec--;
+    if(timerSec<=0){stopTimer();
+      if(navigator.vibrate)navigator.vibrate([200,100,200]);
+    }else updateTimerDisplay();
+  },1000);
+}
+function stopTimer(){
+  clearInterval(timerInterval);timerInterval=null;timerSec=0;
+  document.getElementById("timerBar").classList.remove("active");
+  const wkHead=document.getElementById("wkHead");
+  if(wkHead)wkHead.classList.remove("timer-push");
+}
+function updateTimerDisplay(){
+  const m=Math.floor(timerSec/60),s=timerSec%60;
+  document.getElementById("timerDisplay").textContent=m+":"+String(s).padStart(2,"0");
+}
+
+/* ─── VIEWS ─── */
+function showView(v){
+  currentView=v;expandedEx=null;
+  document.querySelectorAll(".view").forEach(el=>el.classList.remove("active"));
+  const tabBar=document.getElementById("tabBar");
+  const map={home:"viewHome",workout:"viewWorkout",done:"viewDone",prog:"viewProg",info:"viewInfo"};
+  document.getElementById(map[v]).classList.add("active");
+  // Tab highlighting
+  document.querySelectorAll(".tab-bar button").forEach(b=>{
+    b.classList.toggle("on",b.dataset.tab===v);
+  });
+  tabBar.style.display=(v==="done")?"none":"flex";
+  // Render
+  if(v==="home")renderHome();
+  else if(v==="workout")renderWorkout();
+  else if(v==="prog")renderProg();
+  else if(v==="info")renderInfo();
+  window.scrollTo(0,0);
+}
+
+/* ─── RENDER HOME ─── */
+function renderHome(){
+  const pills=document.getElementById("phasePills");
+  pills.innerHTML=P.map((p,i)=>{
+    const on=phaseIdx===i;
+    return `<button class="${on?"on":""}" style="${on?"background:"+p.color+"22;color:"+p.color:""}" onclick="setPhase(${i})">${p.name}</button>`;
+  }).join("");
+  document.getElementById("phaseWeeks").textContent=P[phaseIdx].wk;
+  const grid=document.getElementById("sessGrid");
+  const phase=P[phaseIdx];
+  grid.innerHTML=phase.sessions.map((s,i)=>{
+    const cnt=s.ex.filter((_,j)=>done[s.id+"-"+j]).length;
+    const pct=Math.round(cnt/s.ex.length*100);
+    const complete=pct===100;
+    return `<div class="sess-card" style="${complete?"border-color:"+phase.color+"33;background:"+phase.color+"08":""}" onclick="openSession(${i})">
+      <div class="day" style="color:${phase.color}">${s.day}</div>
+      <div class="stitle">${s.title}</div>
+      <div class="bar"><div class="bar-fill" style="width:${pct}%;background:${phase.color}"></div></div>
+      <div class="cnt">${cnt}/${s.ex.length}</div>
+    </div>`;
+  }).join("");
+}
+function setPhase(i){phaseIdx=i;sessIdx=0;renderHome()}
+function openSession(i){sessIdx=i;showView("workout")}
+
+/* ─── RENDER WORKOUT ─── */
+function renderWorkout(){
+  const phase=P[phaseIdx],sess=phase.sessions[sessIdx];
+  const doneCount=sess.ex.filter((_,j)=>done[sess.id+"-"+j]).length;
+  document.getElementById("wkTitle").textContent=sess.title;
+  document.getElementById("wkSub").textContent=phase.name+" — "+sess.day+" — "+doneCount+"/"+sess.ex.length+" fait"+(doneCount>1?"s":"");
+  document.getElementById("wkWarm").innerHTML=`<span class="wi">🔥</span><span>Échauffement 5 min : ${sess.warm}</span>`;
+  document.getElementById("finishBtn").style.background=phase.color;
+  const list=document.getElementById("exList");
+  list.innerHTML=sess.ex.map((ex,i)=>{
+    const key=sess.id+"-"+i;
+    const isDone=!!done[key];
+    const isOpen=expandedEx===i;
+    return `<div class="ex-item${isDone?" checked":""}">
+      <div class="ex-row">
+        <button class="ex-check${isDone?" on":""}" onclick="toggleEx('${key}')">${isDone?"✓":""}</button>
+        <div class="ex-info" onclick="toggleExpand(${i})">
+          <div class="ex-name">${ex.n}</div>
+          <div class="ex-meta">
+            <span class="accent">${ex.s}×${ex.r}</span>
+            <span>${ex.w}</span>
+            ${ex.rest>0?`<span>⏱ ${ex.rest}s</span>`:""}
+          </div>
+        </div>
+      </div>
+      <div class="ex-expand${isOpen?" open":""}">
+        <div class="ex-tip">💡 ${ex.tip}</div>
+        ${ex.rest>0?`<button class="rest-btn" style="background:${phase.color}22;color:${phase.color}" onclick="startTimer(${ex.rest})">⏱ Lancer ${ex.rest}s de repos</button>`:""}
+      </div>
+    </div>`;
+  }).join("");
+}
+function toggleEx(key){
+  done[key]=!done[key];
+  if(!done[key])delete done[key];
+  saveDone();renderWorkout();
+}
+function toggleExpand(i){expandedEx=expandedEx===i?null:i;renderWorkout()}
+
+/* ─── FINISH ─── */
+function finishSession(){
+  const phase=P[phaseIdx],sess=phase.sessions[sessIdx];
+  history.unshift({date:new Date().toLocaleDateString("fr-FR"),phase:phase.name,session:sess.title});
+  if(history.length>50)history.length=50;
+  saveHistory();showView("done");
+}
+function resetAndHome(){done={};saveDone();showView("home")}
+
+/* ─── RENDER PROGRESSIONS ─── */
+function renderProg(){
+  document.getElementById("progList").innerHTML=P.map(p=>`
+    <div class="prog-phase">
+      <div class="prog-phase-title" style="color:${p.color}">${p.name} — ${p.wk}</div>
+      ${p.prog.map(pr=>`<div class="prog-item"><div class="prog-dot" style="background:${p.color}"></div>${pr}</div>`).join("")}
+    </div>`).join("");
+}
+
+/* ─── RENDER INFO ─── */
+function renderInfo(){
+  let h=`<div class="section-label" style="color:#E8453F">NUTRITION & RÉCUPÉRATION</div>`;
+  h+=NUTR.map(n=>`<div class="info-card"><span class="ii">${n.i}</span><div><h4>${n.t}</h4><p>${n.d}</p></div></div>`).join("");
+  h+=`<div class="section-label" style="color:#D4782F;margin-top:20px">MATÉRIEL À ACHETER</div>`;
+  h+=SHOP.map(s=>`<div class="info-card"><span class="ii">🛒</span><div><h4>${s.wk}</h4><p>${s.item}</p></div></div>`).join("");
+  h+=`<div class="section-label" style="color:#9B2335;margin-top:20px">HISTORIQUE</div>`;
+  if(!history.length)h+=`<p style="font-size:13px;color:#555">Aucune séance terminée pour le moment.</p>`;
+  else h+=history.map(e=>`<div class="hist-item"><span class="hs">${e.session}</span><span class="hd">${e.date}</span></div>`).join("");
+  document.getElementById("infoContent").innerHTML=h;
+}
+
+/* ─── INIT ─── */
+loadState();
+showView("home");
+</script>
+</body>
+</html>
