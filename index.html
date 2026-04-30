@@ -39,37 +39,38 @@ button:focus-visible{outline:2px solid rgba(255,255,255,.78);outline-offset:2px}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
 /* Accueil style plateforme de streaming */
-.home-hero{position:relative;padding:max(44px,env(safe-area-inset-top,44px)) 20px 18px;min-height:310px;display:flex;flex-direction:column;justify-content:flex-end;
+.home-hero{position:relative;padding:max(40px,env(safe-area-inset-top,40px)) 16px 14px;min-height:252px;display:flex;flex-direction:column;justify-content:flex-end;
   background:
     linear-gradient(180deg,rgba(5,5,5,.08) 0%,rgba(5,5,5,.55) 55%,#050505 100%),
     radial-gradient(circle at 72% 12%,rgba(229,9,20,.5),transparent 170px),
     linear-gradient(135deg,#231013 0%,#0b0b0b 44%,#050505 100%)}
 .home-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.5),transparent 58%);pointer-events:none}
 .brand-row,.kicker,.home-hero h1,.home-hero p,.hero-actions,.stat-row{position:relative;z-index:1}
-.brand-row{position:absolute;top:max(18px,env(safe-area-inset-top,18px));left:20px;right:20px;display:flex;align-items:center;justify-content:space-between}
-.brand{font-size:22px;font-weight:800;line-height:1;letter-spacing:0}
+.brand-row{position:absolute;top:max(16px,env(safe-area-inset-top,16px));left:16px;right:16px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-size:21px;font-weight:800;line-height:1;letter-spacing:0}
 .brand span{color:var(--red)}
-.week-badge{padding:6px 10px;border-radius:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:11px;font-weight:800;color:#fff}
-.kicker{font-size:11px;font-weight:800;text-transform:uppercase;color:#d7d7d7;margin-bottom:8px}
-.home-hero h1{font-size:32px;font-weight:800;line-height:1.05;letter-spacing:0;max-width:330px}
-.home-hero p{font-size:13px;color:#d0d0d0;line-height:1.45;margin-top:8px;max-width:330px}
-.hero-actions{display:flex;gap:8px;margin-top:18px}
-.play-btn,.ghost-btn{height:40px;border-radius:6px;padding:0 16px;font-size:13px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap}
+.week-badge{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:10px;font-weight:800;color:#fff}
+.kicker{font-size:10px;font-weight:800;text-transform:uppercase;color:#d7d7d7;margin-bottom:7px}
+.home-hero h1{font-size:28px;font-weight:800;line-height:1.05;letter-spacing:0;max-width:330px}
+.home-hero p{font-size:12px;color:#d0d0d0;line-height:1.4;margin-top:6px;max-width:330px}
+.hero-actions{display:flex;gap:8px;margin-top:14px}
+.play-btn,.ghost-btn{height:38px;border-radius:7px;padding:0 15px;font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap}
 .play-btn{background:#fff;color:#070707}
 .ghost-btn{background:rgba(109,109,110,.72);color:#fff}
-.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
-.stat{background:rgba(20,20,20,.78);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:9px 8px}
-.stat strong{display:block;font-size:16px;font-weight:800}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
+.stat{background:rgba(20,20,20,.78);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:8px}
+.stat strong{display:block;font-size:15px;font-weight:800}
 .stat span{display:block;font-size:10px;color:var(--muted);margin-top:1px}
 
-.week-strip{display:flex;gap:8px;overflow-x:auto;padding:2px 20px 18px;scrollbar-width:none}
-.week-strip::-webkit-scrollbar,.phase-pills::-webkit-scrollbar{display:none}
-.week-strip button{min-width:58px;height:42px;border-radius:8px;background:#151515;border:1px solid #242424;color:#888;font-size:11px;font-weight:800}
-.week-strip button.on{background:#fff;color:#050505;border-color:#fff}
-.week-strip button.done{border-color:rgba(229,9,20,.75);color:#fff}
-.row-head{display:flex;align-items:flex-end;justify-content:space-between;padding:0 20px 10px}
-.row-title{font-size:18px;font-weight:800}
-.row-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.week-strip{display:grid;grid-template-columns:38px 1fr 38px;gap:8px;padding:0 16px 12px}
+.week-stepper-btn,.week-stepper-label{height:36px;border-radius:999px;border:1px solid #242424;background:#151515}
+.week-stepper-btn{font-size:18px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center}
+.week-stepper-btn:disabled{opacity:.35;cursor:default}
+.week-stepper-label{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff}
+.phase-pills::-webkit-scrollbar{display:none}
+.row-head{display:flex;align-items:flex-end;justify-content:space-between;padding:0 16px 8px}
+.row-title{font-size:16px;font-weight:800}
+.row-sub{font-size:11px;color:var(--muted);margin-top:2px;font-weight:700}
 
 /* Tab Bar */
 .tab-bar{position:fixed;bottom:max(10px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);
@@ -95,22 +96,23 @@ button:focus-visible{outline:2px solid rgba(255,255,255,.78);outline-offset:2px}
 .head p{font-size:13px;color:var(--muted);margin-top:2px}
 
 /* Phase Pills */
-.phase-pills{display:flex;gap:8px;padding:0 20px 20px;overflow-x:auto;scrollbar-width:none}
-.phase-pills button{flex:0 0 auto;padding:9px 14px;border-radius:6px;font-size:12px;font-weight:800;background:#171717;color:#b7b7b7;transition:all .15s;border:1px solid #272727}
+.phase-pills{display:flex;gap:6px;padding:0 16px 14px;overflow-x:auto;scrollbar-width:none}
+.phase-pills button{flex:0 0 auto;min-width:96px;height:34px;padding:0 13px;border-radius:999px;font-size:11px;font-weight:800;background:#171717;color:#b7b7b7;transition:all .15s;border:1px solid #272727}
 .phase-pills button.on{color:#fff;border-color:transparent}
 
 /* Grille des séances */
-.sess-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 20px 112px}
-.sess-card{position:relative;min-height:132px;background:linear-gradient(155deg,#202020,#121212);border-radius:8px;padding:12px;cursor:pointer;transition:transform .12s,border-color .12s;border:1px solid #252525;overflow:hidden}
-.sess-card:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(229,9,20,.28),transparent 48%);opacity:.45;pointer-events:none}
+.sess-grid{display:flex;flex-direction:column;gap:7px;padding:0 16px 104px}
+.sess-card{position:relative;min-height:0;background:#151515;border-radius:8px;padding:10px;cursor:pointer;transition:transform .12s,border-color .12s,background .12s;border:1px solid #252525;overflow:hidden;
+  display:grid;grid-template-columns:36px minmax(0,1fr) auto;grid-template-areas:"day title tag" "bar bar bar" "cnt cnt cnt";align-items:center;column-gap:8px}
+.sess-card:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(229,9,20,.2),transparent 52%);opacity:.24;pointer-events:none}
 .sess-card:active{transform:scale(.98)}
 .sess-card .day,.sess-card .stitle,.sess-card .bar,.sess-card .cnt,.sess-card .tag{position:relative;z-index:1}
-.sess-card .day{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0;margin-bottom:6px}
-.sess-card .tag{display:inline-flex;padding:4px 7px;border-radius:4px;background:rgba(0,0,0,.45);font-size:10px;font-weight:800;color:#e6e6e6;margin-bottom:22px}
-.sess-card .stitle{font-size:15px;font-weight:800;line-height:1.18;min-height:36px}
-.sess-card .bar{margin-top:10px;height:4px;border-radius:2px;background:#343434;overflow:hidden}
-.sess-card .bar-fill{height:100%;border-radius:2px;transition:width .3s}
-.sess-card .cnt{font-size:10px;color:var(--muted);margin-top:5px;display:flex;justify-content:space-between;gap:8px}
+.sess-card .day{grid-area:day;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0;margin:0}
+.sess-card .tag{grid-area:tag;display:inline-flex;padding:5px 7px;border-radius:999px;background:rgba(0,0,0,.45);font-size:9px;font-weight:800;color:#e6e6e6;white-space:nowrap;margin:0}
+.sess-card .stitle{grid-area:title;font-size:14px;font-weight:800;line-height:1.15;min-height:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sess-card .bar{grid-area:bar;margin-top:8px;height:4px;border-radius:999px;background:#343434;overflow:hidden}
+.sess-card .bar-fill{height:100%;border-radius:999px;transition:width .3s}
+.sess-card .cnt{grid-area:cnt;font-size:10px;color:var(--muted);margin-top:5px;display:flex;justify-content:space-between;gap:8px}
 
 /* Séance */
 .workout{padding:0 20px 132px}
@@ -172,11 +174,41 @@ button:focus-visible{outline:2px solid rgba(255,255,255,.78);outline-offset:2px}
 .info-card p{font-size:12px;color:var(--muted);line-height:1.4}
 
 /* Progressions */
-.prog-section{padding:0 20px 112px}
-.prog-phase{margin-bottom:24px}
-.prog-phase-title{font-size:14px;font-weight:800;margin-bottom:10px}
-.prog-item{padding:11px 0;border-bottom:1px solid #1b1b1b;font-size:13px;color:#d8d8d8;line-height:1.4;display:flex;gap:8px;align-items:flex-start}
-.prog-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:6px}
+#viewProg .head{padding-bottom:12px}
+#viewProg .head p{line-height:1.35}
+.prog-section{padding:0 16px 104px}
+.prog-summary{background:#151515;border:1px solid #242424;border-radius:8px;padding:12px;margin-bottom:12px}
+.prog-summary-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.prog-summary-top strong{display:block;font-size:22px;font-weight:800;line-height:1.05;margin-top:3px}
+.prog-summary-top span{font-size:11px;color:var(--muted);font-weight:800}
+.prog-summary-count{font-size:12px;font-weight:800;color:#fff;background:rgba(255,255,255,.08);border-radius:999px;padding:6px 9px;white-space:nowrap}
+.prog-meter{height:6px;border-radius:999px;background:#343434;overflow:hidden;margin-bottom:9px}
+.prog-meter-fill{height:100%;border-radius:999px;transition:width .24s ease}
+.prog-quick{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.prog-quick div{background:#0d0d0d;border:1px solid #242424;border-radius:7px;padding:8px 9px;font-size:11px;color:#cfcfcf}
+.prog-quick strong{display:block;font-size:13px;color:#fff;margin-bottom:2px}
+.prog-week-nav{display:grid;grid-template-columns:38px 1fr 38px;gap:8px;padding:0 0 13px}
+.prog-block{margin-bottom:16px}
+.prog-block-title{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:8px}
+.prog-block-title strong{font-size:14px;font-weight:800}
+.prog-block-title span{font-size:10px;color:var(--muted);font-weight:800;text-align:right}
+.prog-session{background:#151515;border:1px solid #242424;border-radius:8px;padding:10px;margin-bottom:7px;cursor:pointer;
+  transition:transform .12s,border-color .12s,background .12s}
+.prog-session:active{transform:scale(.98)}
+.prog-session.done{background:linear-gradient(155deg,rgba(229,9,20,.18),#151515)}
+.prog-session-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.prog-session-copy{display:grid;grid-template-columns:34px minmax(0,1fr);align-items:center;gap:8px;min-width:0}
+.prog-session-day{font-size:10px;font-weight:800;text-transform:uppercase}
+.prog-session-name{font-size:13px;font-weight:800;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prog-session-status{font-size:9px;font-weight:800;color:#fff;background:rgba(0,0,0,.42);border-radius:999px;padding:5px 7px;white-space:nowrap}
+.prog-session-bar{height:4px;border-radius:999px;background:#343434;overflow:hidden}
+.prog-session-fill{height:100%;border-radius:999px;transition:width .24s ease}
+.prog-session-meta{display:flex;gap:10px;margin-top:5px;font-size:10px;color:var(--muted)}
+.prog-phase{margin-bottom:10px}
+.prog-phase-title{font-size:13px;font-weight:800;margin-bottom:7px}
+.prog-item{padding:8px 0;border-bottom:1px solid #1b1b1b;font-size:12px;color:#d8d8d8;line-height:1.32;display:flex;gap:8px;align-items:flex-start}
+.prog-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.prog-more{font-size:11px;color:var(--muted);font-weight:800;margin-top:8px}
 
 /* Historique */
 .hist-item{padding:12px 14px;background:#151515;border:1px solid #232323;border-radius:8px;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;gap:12px}
@@ -215,7 +247,7 @@ button:focus-visible{outline:2px solid rgba(255,255,255,.78);outline-offset:2px}
       <p id="homeFocusSub">Fessiers • Cuisses • Ventre plat</p>
       <div class="hero-actions">
         <button class="play-btn" id="heroPlay" onclick="openSuggestedSession()">▶ Continuer</button>
-        <button class="ghost-btn" onclick="showView('prog')">Progressions</button>
+        <button class="ghost-btn" onclick="showView('prog')">Progrès</button>
       </div>
       <div class="stat-row" id="homeStats"></div>
     </div>
@@ -229,8 +261,8 @@ button:focus-visible{outline:2px solid rgba(255,255,255,.78);outline-offset:2px}
     <div class="phase-pills" id="phasePills"></div>
     <div class="row-head">
       <div>
-        <div class="row-title">Séances de la semaine</div>
-        <div class="row-sub">Touche une carte pour lancer l'entraînement</div>
+        <div class="row-title">Séances</div>
+        <div class="row-sub" id="sessionWeeks"></div>
       </div>
     </div>
     <div class="sess-grid" id="sessGrid"></div>
@@ -262,7 +294,7 @@ button:focus-visible{outline:2px solid rgba(255,255,255,.78);outline-offset:2px}
 
   <!-- PROGRESSIONS -->
   <div class="view" id="viewProg">
-    <div class="head"><h1>Progressions</h1><p>Évolutions à appliquer toutes les 2 semaines</p></div>
+    <div class="head"><h1>Progrès</h1><p>Résumé simple de ta semaine</p></div>
     <div class="prog-section" id="progList"></div>
   </div>
 
@@ -483,16 +515,17 @@ function renderHome(){
     <div class="stat"><strong>${currentWeek}/12</strong><span>Semaine active</span></div>
     <div class="stat"><strong>${weekDone}/${phase.sessions.length}</strong><span>Cette semaine</span></div>
     <div class="stat"><strong>${totalDone}</strong><span>Séances terminées</span></div>`;
-  document.getElementById("weekStrip").innerHTML=Array.from({length:12},(_,i)=>{
-    const w=i+1, on=w===currentWeek, complete=weekIsDone(w);
-    return `<button class="${on?"on":""} ${complete?"done":""}" onclick="setWeek(${w})">Sem. ${w}</button>`;
-  }).join("");
+  document.getElementById("weekStrip").innerHTML=`
+    <button class="week-stepper-btn" onclick="shiftWeek(-1)" aria-label="Semaine précédente" ${currentWeek===1?"disabled":""}>‹</button>
+    <div class="week-stepper-label">Semaine ${currentWeek}</div>
+    <button class="week-stepper-btn" onclick="shiftWeek(1)" aria-label="Semaine suivante" ${currentWeek===12?"disabled":""}>›</button>`;
   const pills=document.getElementById("phasePills");
   pills.innerHTML=P.map((p,i)=>{
     const on=phaseIdx===i;
-    return `<button class="${on?"on":""}" style="${on?"background:"+p.color+";color:#fff":"border-color:"+p.color+"55"}" onclick="setPhase(${i})">${p.name} · Sem. ${weekRangeForPhase(i)}</button>`;
+    return `<button class="${on?"on":""}" style="${on?"background:"+p.color+";color:#fff":"border-color:"+p.color+"55"}" onclick="setPhase(${i})">${p.name}</button>`;
   }).join("");
   document.getElementById("phaseWeeks").textContent=`${phase.wk} • ${phase.name}`;
+  document.getElementById("sessionWeeks").textContent=`${phase.sessions.length} séances • Semaine ${currentWeek}`;
   const grid=document.getElementById("sessGrid");
   grid.innerHTML=phase.sessions.map((s,i)=>{
     const complete=!!sessionsDone[sessionKey(s)];
@@ -513,8 +546,9 @@ function getSuggestedSessionIndex(){
   const next=phase.sessions.findIndex(s=>!sessionsDone[sessionKey(s)]);
   return next===-1?0:next;
 }
-function setWeek(w){currentWeek=clampWeek(w);phaseIdx=phaseForWeek(currentWeek);sessIdx=0;savePrefs();renderHome()}
-function setPhase(i){phaseIdx=i;currentWeek=i*4+1;sessIdx=0;savePrefs();renderHome()}
+function setWeek(w){currentWeek=clampWeek(w);phaseIdx=phaseForWeek(currentWeek);sessIdx=0;savePrefs();currentView==="prog"?renderProg():renderHome()}
+function shiftWeek(delta){setWeek(currentWeek+delta)}
+function setPhase(i){phaseIdx=i;currentWeek=i*4+1;sessIdx=0;savePrefs();currentView==="prog"?renderProg():renderHome()}
 function openSuggestedSession(){openSession(suggestedSessionIdx)}
 function openSession(i){sessIdx=i;showView("workout")}
 
@@ -577,11 +611,72 @@ function resetAndHome(){showView("home")}
 
 /* ─── AFFICHAGE PROGRESSIONS ─── */
 function renderProg(){
-  document.getElementById("progList").innerHTML=P.map(p=>`
-    <div class="prog-phase">
-      <div class="prog-phase-title" style="color:${p.color}">${p.name} — ${p.wk}</div>
-      ${p.prog.map(pr=>`<div class="prog-item"><div class="prog-dot" style="background:${p.color}"></div>${pr}</div>`).join("")}
-    </div>`).join("");
+  phaseIdx=phaseForWeek(currentWeek);
+  const phase=P[phaseIdx];
+  const totalSessions=Array.from({length:12},(_,i)=>P[phaseForWeek(i+1)].sessions.length).reduce((a,b)=>a+b,0);
+  const totalDone=Object.keys(sessionsDone).length;
+  const programPct=Math.round(totalDone/totalSessions*100);
+  const weekSessions=phase.sessions.length;
+  const weekDone=phase.sessions.filter(s=>sessionsDone[sessionKey(s)]).length;
+  const weekTotalEx=phase.sessions.reduce((sum,s)=>sum+s.ex.length,0);
+  const weekDoneEx=phase.sessions.reduce((sum,s)=>sum+(sessionsDone[sessionKey(s)]?s.ex.length:s.ex.filter((_,j)=>done[exerciseKey(s,j)]).length),0);
+  const weekPct=Math.round(weekDoneEx/weekTotalEx*100);
+  const nextIdx=getSuggestedSessionIndex();
+  const visibleGoals=phase.prog.slice(0,3);
+  const hiddenGoalCount=phase.prog.length-visibleGoals.length;
+  document.getElementById("progList").innerHTML=`
+    <div class="prog-summary">
+      <div class="prog-summary-top">
+        <div>
+          <span>Semaine ${currentWeek} • ${phase.name}</span>
+          <strong>${weekPct}% terminé</strong>
+        </div>
+        <div class="prog-summary-count">${weekDone}/${weekSessions}</div>
+      </div>
+      <div class="prog-meter"><div class="prog-meter-fill" style="width:${weekPct}%;background:${phase.color}"></div></div>
+      <div class="prog-quick">
+        <div><strong>${weekDoneEx}/${weekTotalEx}</strong>Exercices</div>
+        <div><strong>${programPct}%</strong>Programme</div>
+      </div>
+    </div>
+    <div class="prog-week-nav">
+      <button class="week-stepper-btn" onclick="shiftWeek(-1)" aria-label="Semaine précédente" ${currentWeek===1?"disabled":""}>‹</button>
+      <div class="week-stepper-label">Semaine ${currentWeek}</div>
+      <button class="week-stepper-btn" onclick="shiftWeek(1)" aria-label="Semaine suivante" ${currentWeek===12?"disabled":""}>›</button>
+    </div>
+    <div class="prog-block">
+      <div class="prog-block-title">
+        <strong>Séances</strong>
+        <span>${phase.wk}</span>
+      </div>
+      ${phase.sessions.map((s,i)=>{
+        const complete=!!sessionsDone[sessionKey(s)];
+        const cnt=complete?s.ex.length:s.ex.filter((_,j)=>done[exerciseKey(s,j)]).length;
+        const pct=Math.round(cnt/s.ex.length*100);
+        return `<div class="prog-session${complete?" done":""}" style="${complete?"border-color:"+phase.color:""}" onclick="openSession(${i})">
+          <div class="prog-session-top">
+            <div class="prog-session-copy">
+              <div class="prog-session-day" style="color:${phase.color}">${s.day}</div>
+              <div class="prog-session-name">${s.title}</div>
+            </div>
+            <div class="prog-session-status">${complete?"Terminée":i===nextIdx?"À faire":pct?`${pct}%`:"0%"}</div>
+          </div>
+          <div class="prog-session-bar"><div class="prog-session-fill" style="width:${pct}%;background:${phase.color}"></div></div>
+          <div class="prog-session-meta"><span>${cnt}/${s.ex.length} exercices</span></div>
+        </div>`;
+      }).join("")}
+    </div>
+    <div class="prog-block">
+      <div class="prog-block-title">
+        <strong>Objectifs phase</strong>
+        <span>${phase.name}</span>
+      </div>
+      <div class="prog-phase">
+        <div class="prog-phase-title" style="color:${phase.color}">${phase.name} — ${phase.wk}</div>
+        ${visibleGoals.map(pr=>`<div class="prog-item"><div class="prog-dot" style="background:${phase.color}"></div>${pr}</div>`).join("")}
+        ${hiddenGoalCount>0?`<div class="prog-more">+${hiddenGoalCount} autres objectifs dans cette phase</div>`:""}
+      </div>
+    </div>`;
 }
 
 /* ─── AFFICHAGE CONSEILS ─── */
